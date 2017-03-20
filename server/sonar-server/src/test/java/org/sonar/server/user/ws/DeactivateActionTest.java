@@ -191,7 +191,7 @@ public class DeactivateActionTest {
   public void fail_to_deactivate_last_administrator_of_organization() throws Exception {
     // user1 is the unique administrator of org1 and org2.
     // user1 and user2 are both administrators of org3
-    UserDto user1 = createUser();
+    UserDto user1 = insertUser(newUserDto().setLogin("test"));
     OrganizationDto org1 = db.organizations().insert(newOrganizationDto().setKey("org1"));
     OrganizationDto org2 = db.organizations().insert(newOrganizationDto().setKey("org2"));
     OrganizationDto org3 = db.organizations().insert(newOrganizationDto().setKey("org3"));
@@ -203,7 +203,7 @@ public class DeactivateActionTest {
     logInAsSystemAdministrator();
 
     expectedException.expect(BadRequestException.class);
-    expectedException.expectMessage("User is last administrator of organizations [org1, org2], and cannot be deactivated");
+    expectedException.expectMessage("User 'test' is last administrator of organizations [org1, org2], and cannot be deactivated");
 
     deactivate(user1.getLogin());
   }
